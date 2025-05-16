@@ -3,34 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>РЕЗУЛЬТАТЫ НЦТ 2025 БИШКЕК</title>
+    <title>РЕЗУЛЬТАТЫ НЦТ 2025 БИШКЕК.</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
         }
-
         button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
             border: none;
-            background-color: red;
+            background-color: BLUE;
             color: white;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            
         }
-
         button:hover {
             background-color: #0056b3;
         }
-
         #cancelButton {
             position: absolute;
             top: 50%;
@@ -42,29 +39,34 @@
             cursor: pointer;
             pointer-events: auto;
         }
+        #authorText {
+            display: none;
+            font-size: 40px;
+            color: #333;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-
     <button id="enterButton">ВОЙТИ</button>
-
+    <div id="authorText">Автор @ramazan_20_09</div>
     <audio id="audio" src="stt.mp3"></audio>
-
     <button id="cancelButton" style="display: none;">Отмена</button>
-
     <script>
         const enterButton = document.getElementById('enterButton');
         const audio = document.getElementById('audio');
         const cancelButton = document.getElementById('cancelButton');
+        const authorText = document.getElementById('authorText');
         let audioPlaying = false;
         let moveDirection = 1;
-        let moveSpeed = 2; // начальная скорость
+        let moveSpeed = 20;
 
         enterButton.addEventListener('click', () => {
             if (!audioPlaying) {
                 audio.play();
                 audioPlaying = true;
                 cancelButton.style.display = 'inline-block';
+                authorText.style.display = 'block';
                 moveButton();
             }
         });
@@ -81,29 +83,20 @@
                 const cancelButtonRect = cancelButton.getBoundingClientRect();
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
-
                 let newX = cancelButton.offsetLeft + moveDirection * moveSpeed;
                 let newY = cancelButton.offsetTop + (Math.random() > 0.5 ? 1 : -1) * moveSpeed;
-
-                // Ограничиваем движение кнопки по экрану
                 if (newX <= 0 || newX + cancelButtonRect.width >= windowWidth) {
                     moveDirection = -moveDirection;
                 }
-
                 if (newY <= 0 || newY + cancelButtonRect.height >= windowHeight) {
                     moveDirection = -moveDirection;
                 }
-
                 cancelButton.style.left = `${newX}px`;
                 cancelButton.style.top = `${newY}px`;
-
-                // Увеличиваем скорость движения кнопки с течением времени
                 moveSpeed += 0.05;
-
                 requestAnimationFrame(moveButton);
             }
         }
     </script>
-
 </body>
 </html>
